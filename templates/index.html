@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Pintoresco</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-container input:focus {
+            outline: none;
+            border-color: #ff7e5f;
+            box-shadow: 0 0 10px rgba(255, 126, 95, 0.5);
+        }
+
+        .form-container button {
+            padding: 12px 30px;
+            background-color: #ff7e5f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .form-container button:hover {
+            background-color: #feb47b;
+        }
+
+        .response {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            font-size: 1rem;
+            color: #fff;
+            opacity: 0.7;
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Formulario de Paneles Solares</h1>
+
+    <div class="form-container">
+        <form id="formulario">
+            <input type="number" id="input1" name="input1" placeholder="Largo de techo (m)" required><br>
+            <input type="number" id="input2" name="input2" placeholder="Ancho de techo (m)" required><br>
+            <input type="number" id="input3" name="input3" placeholder="Largo del panel solar (m)" required><br>
+            <input type="number" id="input4" name="input4" placeholder="Ancho del panel solar (m)" required><br>
+            <button type="submit">Calcular</button>
+        </form>
+
+        <div id="respuesta" class="response"></div>
+    </div>
+
+    <div class="footer">
+        <p>Powered by <a href="https://ruuf.cl/" target="_blank">Ruuf</a></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#formulario').submit(function(event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: '/procesar',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#respuesta').text(response.respuesta);
+                    },
+                    error: function() {
+                        $('#respuesta').text('Hubo un error al procesar los datos.');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
